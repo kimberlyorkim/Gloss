@@ -1,0 +1,245 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --rose:#E8A0A0;--rose-deep:#C07080;--rose-pale:#F5E8E8;
+  --gold:#D4A870;--gold-pale:#F5EAD8;
+  --ink:#1A1410;--ink-mid:#4A3830;--ink-light:#8A7870;
+  --cream:#FBF7F3;--cream-dark:#F0E8E0;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+.page{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;}
+
+/* Hero */
+.hero{padding:4rem 2rem 3rem;text-align:center;position:relative;}
+.hero-eyebrow{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-light);margin-bottom:1.5rem;}
+.hero-title{font-family:var(--serif);font-size:clamp(48px,8vw,80px);font-weight:300;line-height:1.05;color:var(--ink);margin-bottom:0.5rem;}
+.hero-title em{font-style:italic;color:var(--rose-deep);}
+.hero-sub{font-family:var(--serif);font-size:clamp(16px,2.5vw,22px);font-weight:300;color:var(--ink-mid);line-height:1.6;max-width:520px;margin:1.25rem auto 2rem;font-style:italic;}
+.hero-shelf{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:2.5rem;flex-wrap:wrap;}
+.product-dot{width:36px;height:36px;border-radius:50%;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.12);transition:transform 0.2s;}
+.product-dot:hover{transform:scale(1.2);}
+.shelf-label{font-size:11px;color:var(--ink-light);letter-spacing:0.06em;text-align:center;margin-bottom:2rem;}
+
+/* Waitlist form */
+.waitlist-wrap{display:flex;gap:8px;max-width:420px;margin:0 auto 0.75rem;flex-wrap:wrap;justify-content:center;}
+.waitlist-input{flex:1;min-width:200px;padding:12px 18px;border:1px solid #D8C8B8;border-radius:32px;background:white;font-family:var(--sans);font-size:14px;color:var(--ink);outline:none;}
+.waitlist-input:focus{border-color:var(--rose-deep);}
+.waitlist-input::placeholder{color:var(--ink-light);}
+.waitlist-btn{padding:12px 24px;border-radius:32px;background:var(--ink);color:white;border:none;font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:0.04em;cursor:pointer;white-space:nowrap;transition:background 0.2s;}
+.waitlist-btn:hover{background:var(--ink-mid);}
+.waitlist-note{font-size:12px;color:var(--ink-light);text-align:center;}
+.success-msg{font-size:14px;color:var(--rose-deep);text-align:center;font-style:italic;font-family:var(--serif);display:none;padding:0.5rem;}
+
+/* Divider ornament */
+.ornament{text-align:center;color:var(--rose);font-size:20px;margin:2rem 0;letter-spacing:0.3em;}
+
+/* Features */
+.features{padding:2rem 2rem 3rem;max-width:720px;margin:0 auto;}
+.features-title{font-family:var(--serif);font-size:clamp(28px,4vw,38px);font-weight:300;text-align:center;margin-bottom:0.5rem;color:var(--ink);}
+.features-title em{font-style:italic;color:var(--rose-deep);}
+.features-sub{font-family:var(--serif);font-size:16px;font-weight:300;font-style:italic;color:var(--ink-light);text-align:center;margin-bottom:2.5rem;}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;}
+.feature-card{background:white;border:1px solid var(--cream-dark);border-radius:16px;padding:1.25rem 1rem;text-align:center;transition:transform 0.2s,border-color 0.2s;cursor:default;}
+.feature-card:hover{transform:translateY(-3px);border-color:#D8C8B8;}
+.feature-icon{width:44px;height:44px;border-radius:50%;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.feature-name{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.feature-desc{font-family:var(--sans);font-size:12px;color:var(--ink-light);line-height:1.5;}
+
+/* How it works */
+.how{background:var(--cream-dark);padding:3rem 2rem;text-align:center;}
+.how-title{font-family:var(--serif);font-size:clamp(26px,4vw,36px);font-weight:300;margin-bottom:0.5rem;}
+.how-title em{font-style:italic;color:var(--rose-deep);}
+.how-sub{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink-light);margin-bottom:2.5rem;}
+.steps{display:flex;gap:0;max-width:640px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
+.step{flex:1;min-width:140px;padding:1rem 0.75rem;position:relative;}
+.step-num{font-family:var(--serif);font-size:36px;font-weight:300;color:var(--rose);line-height:1;margin-bottom:0.5rem;}
+.step-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.step-desc{font-size:12px;color:var(--ink-light);line-height:1.5;}
+
+/* Social proof */
+.proof{padding:3rem 2rem;max-width:680px;margin:0 auto;text-align:center;}
+.proof-title{font-family:var(--serif);font-size:clamp(24px,3.5vw,34px);font-weight:300;font-style:italic;color:var(--ink);margin-bottom:2rem;}
+.quotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;text-align:left;}
+.quote-card{background:white;border:1px solid var(--cream-dark);border-radius:16px;padding:1.25rem;}
+.quote-text{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink-mid);line-height:1.6;margin-bottom:0.75rem;}
+.quote-author{font-size:12px;color:var(--ink-light);font-weight:500;letter-spacing:0.04em;}
+.quote-dots{display:flex;gap:4px;margin-bottom:0.75rem;}
+.quote-dot-fill{width:8px;height:8px;border-radius:50%;background:var(--gold);}
+
+/* Final CTA */
+.cta-final{background:var(--ink);padding:3.5rem 2rem;text-align:center;}
+.cta-title{font-family:var(--serif);font-size:clamp(28px,5vw,48px);font-weight:300;color:white;margin-bottom:0.5rem;line-height:1.1;}
+.cta-title em{font-style:italic;color:var(--rose);}
+.cta-sub{font-family:var(--serif);font-size:16px;font-style:italic;color:rgba(255,255,255,0.55);margin-bottom:2rem;}
+.cta-form{display:flex;gap:8px;max-width:400px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
+.cta-input{flex:1;min-width:190px;padding:12px 18px;border-radius:32px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.08);font-family:var(--sans);font-size:14px;color:white;outline:none;}
+.cta-input::placeholder{color:rgba(255,255,255,0.35);}
+.cta-input:focus{border-color:var(--rose);}
+.cta-btn{padding:12px 24px;border-radius:32px;background:var(--rose-deep);color:white;border:none;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background 0.2s;}
+.cta-btn:hover{background:var(--rose);}
+.cta-success{font-size:14px;color:var(--rose);font-style:italic;font-family:var(--serif);display:none;padding:0.5rem;}
+
+/* Footer */
+.footer{padding:1.5rem 2rem;text-align:center;border-top:1px solid var(--cream-dark);}
+.footer-brand{font-family:var(--serif);font-size:20px;font-weight:300;color:var(--ink);letter-spacing:0.04em;margin-bottom:4px;}
+.footer-note{font-size:12px;color:var(--ink-light);}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeUp 0.7s ease both;}
+.fade-in-2{animation:fadeUp 0.7s 0.15s ease both;}
+.fade-in-3{animation:fadeUp 0.7s 0.3s ease both;}
+.fade-in-4{animation:fadeUp 0.7s 0.45s ease both;}
+</style>
+
+<h2 class="sr-only">Gloss — AI-powered beauty app landing page with waitlist signup</h2>
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="hero-eyebrow fade-in">Coming soon · Beauty reimagined</p>
+    <h1 class="hero-title fade-in-2">Your beauty shelf,<br><em>finally intelligent.</em></h1>
+    <p class="hero-sub fade-in-3">Gloss syncs your Sephora & Ulta history to build personalized looks, catch ingredient conflicts, and pack your bag — all from products you already own.</p>
+
+    <div class="hero-shelf fade-in-3">
+      <div class="product-dot" style="background:#D4A87A" title="Foundation"></div>
+      <div class="product-dot" style="background:#E8A090" title="Blush"></div>
+      <div class="product-dot" style="background:#F5E0A8" title="Highlight"></div>
+      <div class="product-dot" style="background:#B88A60" title="Bronzer"></div>
+      <div class="product-dot" style="background:#C89870" title="Eyeshadow"></div>
+      <div class="product-dot" style="background:#1A1A1A" title="Liner"></div>
+      <div class="product-dot" style="background:#7A5838" title="Brows"></div>
+      <div class="product-dot" style="background:#C83040" title="Lip"></div>
+      <div class="product-dot" style="background:#E89090" title="Lip gloss"></div>
+      <div class="product-dot" style="background:#8B5060" title="Lip stain"></div>
+    </div>
+    <p class="shelf-label fade-in-3">Your shelf · 31 products and counting</p>
+
+    <div class="waitlist-wrap fade-in-4">
+      <input class="waitlist-input" type="email" id="hero-email" placeholder="your@email.com">
+      <button class="waitlist-btn" onclick="joinWaitlist('hero')">Join the waitlist</button>
+    </div>
+    <p class="waitlist-note fade-in-4">Free during beta · No spam · Unsubscribe anytime</p>
+    <p class="success-msg" id="hero-success">✦ You're on the list — we'll be in touch soon!</p>
+  </div>
+
+  <div class="ornament">· · ✦ · ·</div>
+
+  <!-- Features -->
+  <div class="features">
+    <h2 class="features-title">Everything your beauty routine<br><em>has been missing</em></h2>
+    <p class="features-sub">Five tools. One shelf. Built around you.</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#FDF0F0"><i class="ti ti-shopping-bag" style="color:#C07080;font-size:20px" aria-hidden="true"></i></div>
+        <div class="feature-name">Build my look</div>
+        <div class="feature-desc">AI curates complete looks from your real shelf — by occasion, vibe, or lip mood</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#F5EAD8"><i class="ti ti-plane" style="color:#B88A60;font-size:20px" aria-hidden="true"></i></div>
+        <div class="feature-name">Travel planner</div>
+        <div class="feature-desc">TSA-smart packing by destination climate and trip vibe — with what to pick up</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#F0F5E8"><i class="ti ti-flask" style="color:#6A8A50;font-size:20px" aria-hidden="true"></i></div>
+        <div class="feature-name">Ingredient checker</div>
+        <div class="feature-desc">Flags conflicts between your skincare and makeup before they damage your skin</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#EEF0F8"><i class="ti ti-sparkles" style="color:#6070B8;font-size:20px" aria-hidden="true"></i></div>
+        <div class="feature-name">Finish the look</div>
+        <div class="feature-desc">Discover the one product your shelf is missing — with affiliate links to Sephora</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ornament">· · ✦ · ·</div>
+
+  <!-- How it works -->
+  <div class="how">
+    <h2 class="how-title">How it <em>works</em></h2>
+    <p class="how-sub">From your purchase history to a personalized look in seconds</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Sync your shelf</div>
+        <div class="step-desc">Connect Sephora & Ulta or add products manually</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Pick your vibe</div>
+        <div class="step-desc">Everyday, work, evening, or full glam</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Gloss builds your look</div>
+        <div class="step-desc">AI pairs your products by finish, color, and occasion</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Regenerate freely</div>
+        <div class="step-desc">Don't love it? One tap gives you a whole new look</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Social proof -->
+  <div class="proof">
+    <h2 class="proof-title">"I didn't know my products could work this well together."</h2>
+    <div class="quotes">
+      <div class="quote-card">
+        <div class="quote-dots"><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div></div>
+        <div class="quote-text">"I had no idea my Tatcha primer was pilling under my Fenty foundation. Gloss caught it instantly."</div>
+        <div class="quote-author">BETA TESTER · SAN FRANCISCO</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-dots"><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div></div>
+        <div class="quote-text">"The travel packing feature alone is worth it. It told me exactly which 3 lip products to bring to Cancún."</div>
+        <div class="quote-author">BETA TESTER · LOS ANGELES</div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-dots"><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div><div class="quote-dot-fill"></div></div>
+        <div class="quote-text">"Finally an app that knows I own the Patrick Ta blush and builds around it. Not generic recommendations."</div>
+        <div class="quote-author">BETA TESTER · NEW YORK</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final CTA -->
+  <div class="cta-final">
+    <h2 class="cta-title">Ready for your<br><em>beauty glow up?</em></h2>
+    <p class="cta-sub">Join the waitlist — free during beta</p>
+    <div class="cta-form">
+      <input class="cta-input" type="email" id="cta-email" placeholder="your@email.com">
+      <button class="cta-btn" onclick="joinWaitlist('cta')">Get early access</button>
+    </div>
+    <p class="cta-success" id="cta-success">✦ You're on the list — we'll be in touch soon!</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-brand">✦ Gloss</div>
+    <div class="footer-note">© 2026 Gloss · Built for beauty lovers · San Francisco</div>
+  </div>
+
+</div>
+
+<script>
+let count = 0;
+function joinWaitlist(src) {
+  const input = document.getElementById(src === 'hero' ? 'hero-email' : 'cta-email');
+  const success = document.getElementById(src === 'hero' ? 'hero-success' : 'cta-success');
+  if (!input.value || !input.value.includes('@')) {
+    input.style.borderColor = '#C07080';
+    input.focus();
+    return;
+  }
+  input.style.display = 'none';
+  document.querySelectorAll('.waitlist-btn, .cta-btn').forEach(b => b.style.display = 'none');
+  success.style.display = 'block';
+  count++;
+}
+</script>
