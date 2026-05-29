@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gloss — Your Beauty Shelf</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --rose:#E8A0A0;--rose-deep:#C07080;--rose-pale:#F5E8E8;
+  --gold:#D4A870;--gold-pale:#F5EAD8;
+  --ink:#1A1410;--ink-mid:#4A3830;--ink-light:#8A7870;
+  --cream:#FBF7F3;--cream-dark:#F0E8E0;--cream-mid:#F5EFE8;
+  --white:#FFFFFF;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --radius:12px;--radius-sm:8px;--radius-pill:32px;
+}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height:100vh;}
+
+/* Top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;background:var(--white);border-bottom:1px solid var(--cream-dark);position:sticky;top:0;z-index:100;}
+.brand{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--ink);letter-spacing:0.04em;}
+.brand span{color:var(--rose-deep);font-style:italic;}
+.back-btn{font-size:13px;color:var(--ink-light);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color 0.15s;}
+.back-btn:hover{color:var(--ink);}
+.shelf-badge{font-size:12px;color:var(--ink-light);background:var(--cream-mid);padding:4px 12px;border-radius:var(--radius-pill);}
+
+/* Nav tabs */
+.nav{display:flex;gap:4px;padding:1rem 1.5rem 0;background:var(--white);border-bottom:1px solid var(--cream-dark);overflow-x:auto;}
+.nav-tab{padding:8px 16px;font-size:13px;font-weight:400;border-radius:var(--radius-pill) var(--radius-pill) 0 0;border:1px solid transparent;border-bottom:none;background:transparent;color:var(--ink-light);cursor:pointer;transition:all 0.15s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.nav-tab:hover{color:var(--ink);background:var(--cream-mid);}
+.nav-tab.active{background:var(--cream);color:var(--ink);border-color:var(--cream-dark);font-weight:500;}
+.nav-tab i{font-size:15px;}
+
+/* Main content */
+.main{padding:1.5rem;max-width:760px;margin:0 auto;}
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* Section labels */
+.sec-label{font-size:11px;color:var(--ink-light);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem;margin-top:1.25rem;}
+.sec-label:first-child{margin-top:0;}
+
+/* Cards */
+.card{background:var(--white);border:1px solid var(--cream-dark);border-radius:var(--radius);padding:1.25rem;margin-bottom:1rem;}
+
+/* Shelf grid */
+.shelf-section-title{font-family:var(--serif);font-size:18px;font-weight:300;color:var(--ink);margin-bottom:1.25rem;}
+.shelf-section-title em{font-style:italic;color:var(--rose-deep);}
+.cat-group{margin-bottom:1.5rem;}
+.cat-label{font-size:10px;color:var(--ink-light);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.5rem;padding-bottom:0.4rem;border-bottom:1px solid var(--cream-dark);}
+.shelf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
+.shelf-card{background:var(--white);border:1px solid var(--cream-dark);border-radius:var(--radius-sm);padding:10px;transition:border-color 0.15s,transform 0.15s;}
+.shelf-card:hover{border-color:#D8C8B8;transform:translateY(-1px);}
+.shelf-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;}
+.swatch{width:28px;height:28px;border-radius:50%;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.1);flex-shrink:0;margin-top:2px;}
+.shelf-name{font-size:12px;font-weight:500;color:var(--ink);line-height:1.3;}
+.shelf-brand{font-size:11px;color:var(--ink-light);}
+.shade-pill{font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);background:var(--cream-mid);color:var(--ink-light);display:inline-block;margin-top:4px;}
+.new-badge{font-size:10px;padding:1px 6px;border-radius:var(--radius-pill);background:#E8F5E8;color:#4A7A4A;margin-left:4px;vertical-align:middle;}
+
+/* Occasion pills */
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;}
+.pill{padding:6px 14px;border-radius:var(--radius-pill);font-size:12px;border:1px solid var(--cream-dark);background:var(--white);color:var(--ink-light);cursor:pointer;transition:all 0.15s;font-family:var(--sans);}
+.pill:hover{border-color:#D8C8B8;color:var(--ink);}
+.pill.active{background:var(--ink);color:white;border-color:var(--ink);}
+
+/* Action button */
+.action-btn{width:100%;padding:12px;font-size:13px;font-weight:500;border-radius:var(--radius-pill);border:1px solid var(--cream-dark);background:var(--white);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.15s;font-family:var(--sans);margin-bottom:1rem;letter-spacing:0.02em;}
+.action-btn:hover{background:var(--ink);color:white;border-color:var(--ink);}
+.action-btn i{font-size:16px;}
+
+/* Result box */
+.result-box{background:var(--cream-mid);border:1px solid var(--cream-dark);border-radius:var(--radius);padding:1.25rem;margin-top:0.5rem;}
+.result-title{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--ink);margin-bottom:2px;}
+.result-title em{font-style:italic;color:var(--rose-deep);}
+.result-sub{font-size:12px;color:var(--ink-light);margin-bottom:1.25rem;}
+.result-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--cream-dark);}
+.result-step:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.step-dot{width:32px;height:32px;border-radius:var(--radius-sm);flex-shrink:0;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.1);}
+.step-body{flex:1;}
+.step-cat{font-size:10px;color:var(--ink-light);text-transform:uppercase;letter-spacing:0.08em;}
+.step-name{font-size:13px;font-weight:500;color:var(--ink);margin:1px 0;}
+.step-shade{font-size:11px;color:var(--ink-light);}
+.step-tip{font-size:12px;color:var(--ink-mid);margin-top:3px;line-height:1.5;font-style:italic;}
+.result-note{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--ink-mid);margin-top:1rem;padding-top:1rem;border-top:1px solid var(--cream-dark);line-height:1.6;}
+.result-footer{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap;}
+.result-footer button{padding:8px 16px;font-size:12px;border-radius:var(--radius-pill);border:1px solid var(--cream-dark);background:var(--white);color:var(--ink-light);cursor:pointer;display:flex;align-items:center;gap:5px;font-family:var(--sans);transition:all 0.15s;}
+.result-footer button:hover{background:var(--ink);color:white;border-color:var(--ink);}
+
+/* Tags */
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);margin-left:4px;vertical-align:middle;}
+.tag-warn{background:#FDF0F0;color:#C07080;}
+.tag-suggest{background:#EEF5F8;color:#5080A0;}
+.tag-skip{background:#FDF8EE;color:#A08040;}
+.tag-ok{background:#EEF8EE;color:#4A8A4A;}
+
+/* Conflict items */
+.conflict-item{background:var(--white);border:1px solid var(--cream-dark);border-radius:var(--radius-sm);padding:1rem;margin-bottom:8px;}
+.conflict-label{font-size:10px;padding:2px 8px;border-radius:var(--radius-pill);display:inline-block;margin-bottom:6px;}
+.conflict-products{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.conflict-reason{font-size:12px;color:var(--ink-light);line-height:1.5;}
+.conflict-fix{font-size:12px;color:#5080A0;margin-top:6px;display:flex;align-items:flex-start;gap:5px;line-height:1.5;}
+
+/* Travel */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;}
+.form-field{display:flex;flex-direction:column;gap:4px;}
+.form-field label{font-size:11px;color:var(--ink-light);text-transform:uppercase;letter-spacing:0.06em;}
+.form-field input,.form-field select{width:100%;padding:9px 13px;border:1px solid var(--cream-dark);border-radius:var(--radius-sm);font-family:var(--sans);font-size:13px;color:var(--ink);background:var(--white);outline:none;}
+.form-field input:focus,.form-field select:focus{border-color:#D8C8B8;}
+.climate-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:1rem;}
+.climate-btn{padding:10px 4px;border-radius:var(--radius-sm);border:1px solid var(--cream-dark);background:var(--white);cursor:pointer;text-align:center;transition:all 0.15s;font-family:var(--sans);}
+.climate-btn:hover{border-color:#D8C8B8;}
+.climate-btn.active{background:var(--ink);border-color:var(--ink);}
+.climate-btn .ci{font-size:18px;display:block;margin-bottom:3px;color:var(--ink-light);}
+.climate-btn.active .ci{color:white;}
+.climate-btn .cn{font-size:11px;color:var(--ink-light);}
+.climate-btn.active .cn{color:white;}
+.summary-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem;}
+.summary-card{background:var(--cream-mid);border-radius:var(--radius-sm);padding:12px;text-align:center;}
+.summary-num{font-family:var(--serif);font-size:28px;font-weight:300;color:var(--ink);}
+.summary-label{font-size:11px;color:var(--ink-light);margin-top:2px;}
+.bag-item{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;background:var(--white);border:1px solid var(--cream-dark);border-radius:var(--radius-sm);margin-bottom:6px;}
+.bag-body{flex:1;}
+.bag-name{font-size:13px;font-weight:500;color:var(--ink);}
+.bag-brand{font-size:11px;color:var(--ink-light);}
+.bag-note{font-size:11px;color:var(--ink-light);margin-top:2px;line-height:1.4;font-style:italic;}
+
+/* Discover */
+.discover-card{background:var(--white);border:1px solid var(--cream-dark);border-radius:var(--radius);padding:1.25rem;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;transition:border-color 0.15s;}
+.discover-card:hover{border-color:#D8C8B8;}
+.discover-swatch{width:40px;height:40px;border-radius:var(--radius-sm);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.1);flex-shrink:0;}
+.discover-body{flex:1;}
+.discover-name{font-size:13px;font-weight:500;color:var(--ink);}
+.discover-brand{font-size:11px;color:var(--ink-light);margin-bottom:4px;}
+.discover-why{font-size:12px;color:var(--ink-mid);line-height:1.5;}
+.discover-price{font-size:12px;color:var(--rose-deep);margin-top:5px;cursor:pointer;font-weight:500;}
+
+/* Divider */
+.divider{border:none;border-top:1px solid var(--cream-dark);margin:1rem 0;}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.screen.active{animation:fadeUp 0.3s ease both;}
+
+/* Responsive */
+@media(max-width:520px){
+  .form-grid{grid-template-columns:1fr;}
+  .climate-grid{grid-template-columns:repeat(3,1fr);}
+  .topbar{padding:0.75rem 1rem;}
+  .main{padding:1rem;}
+  .nav{padding:0.75rem 1rem 0;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">✦ <span>Gloss</span></div>
+  <span class="shelf-badge">31 products</span>
+</div>
+
+<div class="nav" id="mainNav">
+  <button class="nav-tab active" data-screen="shelf"><i class="ti ti-layout-grid"></i> My shelf</button>
+  <button class="nav-tab" data-screen="look"><i class="ti ti-sparkles"></i> Build look</button>
+  <button class="nav-tab" data-screen="travel"><i class="ti ti-plane"></i> Travel</button>
+  <button class="nav-tab" data-screen="check"><i class="ti ti-flask"></i> Ingredients</button>
+  <button class="nav-tab" data-screen="discover"><i class="ti ti-shopping-bag"></i> Discover</button>
+</div>
+
+<div class="main">
+
+  <!-- SHELF -->
+  <div class="screen active" id="screen-shelf">
+    <h1 style="font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:0.25rem;">Your beauty shelf</h1>
+    <p style="font-size:13px;color:var(--ink-light);margin-bottom:1.5rem;font-style:italic;">Imported from your Sephora purchase history · 31 products</p>
+    <div id="shelf-grid"></div>
+  </div>
+
+  <!-- BUILD LOOK -->
+  <div class="screen" id="screen-look">
+    <h1 style="font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:0.25rem;">Build my <em style="font-style:italic;color:var(--rose-deep)">look</em></h1>
+    <p style="font-size:13px;color:var(--ink-light);margin-bottom:1.5rem;">AI curates a complete look from your real shelf</p>
+    <p class="sec-label">Occasion</p>
+    <div class="pill-row" id="look-occasions">
+      <button class="pill active" data-occ="everyday">Everyday</button>
+      <button class="pill" data-occ="work">Work</button>
+      <button class="pill" data-occ="evening">Evening out</button>
+      <button class="pill" data-occ="glam">Full glam</button>
+    </div>
+    <p class="sec-label">Lip vibe</p>
+    <div class="pill-row" id="lip-filters">
+      <button class="pill active" data-lip="any">Any</button>
+      <button class="pill" data-lip="gloss">Gloss / Oil</button>
+      <button class="pill" data-lip="matte">Matte</button>
+      <button class="pill" data-lip="bold">Bold</button>
+      <button class="pill" data-lip="nude">Nude / Soft</button>
+    </div>
+    <button class="action-btn" onclick="buildLook()"><i class="ti ti-sparkles"></i> Build my look</button>
+    <div id="look-result"></div>
+  </div>
+
+  <!-- TRAVEL -->
+  <div class="screen" id="screen-travel">
+    <h1 style="font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:0.25rem;">Travel bag <em style="font-style:italic;color:var(--rose-deep)">planner</em></h1>
+    <p style="font-size:13px;color:var(--ink-light);margin-bottom:1.5rem;">TSA-smart packing from your real shelf</p>
+    <div class="card">
+      <p class="sec-label" style="margin-top:0">Trip details</p>
+      <div class="form-grid">
+        <div class="form-field"><label>Destination</label><input type="text" id="t-dest" placeholder="e.g. Cancún, Paris…"></div>
+        <div class="form-field"><label>Length</label>
+          <select id="t-days"><option value="2">Weekend</option><option value="5">Short trip</option><option value="7" selected>One week</option><option value="14">Two weeks+</option></select>
+        </div>
+      </div>
+      <p class="sec-label">Climate</p>
+      <div class="climate-grid" id="climate-btns">
+        <div class="climate-btn active" data-c="tropical"><i class="ti ti-sun ci"></i><div class="cn">Tropical</div></div>
+        <div class="climate-btn" data-c="dry"><i class="ti ti-wind ci"></i><div class="cn">Dry</div></div>
+        <div class="climate-btn" data-c="temperate"><i class="ti ti-cloud ci"></i><div class="cn">Temperate</div></div>
+        <div class="climate-btn" data-c="cold"><i class="ti ti-snowflake ci"></i><div class="cn">Cold</div></div>
+        <div class="climate-btn" data-c="humid"><i class="ti ti-droplet ci"></i><div class="cn">Humid</div></div>
+      </div>
+      <p class="sec-label">Vibe</p>
+      <div class="pill-row" id="vibe-btns">
+        <button class="pill active" data-v="beach">Beach</button>
+        <button class="pill" data-v="city">City break</button>
+        <button class="pill" data-v="business">Business</button>
+        <button class="pill" data-v="adventure">Adventure</button>
+        <button class="pill" data-v="wedding">Wedding</button>
+      </div>
+    </div>
+    <button class="action-btn" onclick="packBag()"><i class="ti ti-backpack"></i> Pack my bag</button>
+    <div id="travel-result"></div>
+  </div>
+
+  <!-- INGREDIENTS -->
+  <div class="screen" id="screen-check">
+    <h1 style="font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:0.25rem;">Ingredient <em style="font-style:italic;color:var(--rose-deep)">checker</em></h1>
+    <p style="font-size:13px;color:var(--ink-light);margin-bottom:1.5rem;">Scans your real products for conflicts, layering issues, and skin interactions</p>
+    <button class="action-btn" onclick="checkIngredients()"><i class="ti ti-flask"></i> Check my routine</button>
+    <div id="check-result"></div>
+  </div>
+
+  <!-- DISCOVER -->
+  <div class="screen" id="screen-discover">
+    <h1 style="font-family:var(--serif);font-size:28px;font-weight:300;margin-bottom:0.25rem;">Finish the <em style="font-style:italic;color:var(--rose-deep)">look</em></h1>
+    <p style="font-size:13px;color:var(--ink-light);margin-bottom:1.5rem;">Products you don't own yet that would complete your shelf</p>
+    <div class="pill-row" id="discover-filters">
+      <button class="pill active" data-df="gap">Fill a gap</button>
+      <button class="pill" data-df="upgrade">Upgrade</button>
+      <button class="pill" data-df="dupe">Find a dupe</button>
+    </div>
+    <button class="action-btn" onclick="discoverProducts()"><i class="ti ti-search"></i> Show recommendations</button>
+    <div id="discover-result"></div>
+  </div>
+
+</div>
+
+<script>
+const SHELF=[
+  {id:1,brand:"Caliray",name:"So Blown Blurring & Hydrating Tripeptide Primer",cat:"primer",finish:"dewy",color:"#E8F0E8",shade:"",size_ml:30,isNew:false},
+  {id:2,brand:"Tatcha",name:"The Liquid Silk Canvas Primer",cat:"primer",finish:"silky",color:"#F5EAD8",shade:"",size_ml:30,isNew:false},
+  {id:3,brand:"Fenty Beauty",name:"Eaze Drop Blurring Skin Tint",cat:"foundation",finish:"natural",color:"#D4A87A",shade:"5 — light medium warm yellow",size_ml:32,isNew:false},
+  {id:4,brand:"Dior",name:"Forever Skin Wear Blurring Natural Matte Foundation",cat:"foundation",finish:"matte",color:"#C8A070",shade:"3WO Warm Olive",size_ml:30,isNew:false},
+  {id:5,brand:"Natasha Denona",name:"Hy-Glam Serum Concealer",cat:"concealer",finish:"dewy",color:"#E0C8A0",shade:"N3 — fair light neutral",size_ml:7,isNew:false},
+  {id:6,brand:"Make Up For Ever",name:"HD Skin Full Cover Waterproof Concealer",cat:"concealer",finish:"matte",color:"#DCBF96",shade:"1N10 — light neutral golden",size_ml:9,isNew:false},
+  {id:7,brand:"Makeup by Mario",name:"SurrealSkin Talc-Free Soft Blur Setting Powder",cat:"powder",finish:"matte",color:"#F0E0C8",shade:"2 Neutral Light",size_ml:0,isNew:false},
+  {id:8,brand:"Patrick Ta",name:"Major Headlines Crème & Powder Blush Duo",cat:"blush",finish:"mixed",color:"#E8A090",shade:"She's Flushed — soft peachy pink",size_ml:0,isNew:false},
+  {id:9,brand:"Benefit",name:"Cheek Buds — Pompom",cat:"blush",finish:"matte",color:"#E8B0B0",shade:"soft pink blush",size_ml:0,isNew:true},
+  {id:10,brand:"Benefit",name:"Cheek Buds — Shellie Gleam",cat:"blush",finish:"shimmer",color:"#F0C0C0",shade:"pink shimmer blush",size_ml:0,isNew:true},
+  {id:11,brand:"Benefit",name:"Cheek Buds — Cookie",cat:"highlighter",finish:"shimmer",color:"#F5E0A8",shade:"champagne gold",size_ml:0,isNew:true},
+  {id:12,brand:"Benefit",name:"Cheek Buds — Hoola Original",cat:"bronzer",finish:"matte",color:"#B88A60",shade:"matte bronze",size_ml:0,isNew:true},
+  {id:13,brand:"Dior",name:"Backstage Eyeshadow Palette",cat:"eyeshadow",finish:"mixed",color:"#C89870",shade:"003 Warm Essentials",size_ml:0,isNew:false},
+  {id:14,brand:"Stila",name:"Stay All Day Waterproof Liquid Eye Liner",cat:"eyeliner",finish:"matte",color:"#1A1A1A",shade:"Intense Black",size_ml:0,isNew:false},
+  {id:15,brand:"Anastasia Beverly Hills",name:"Brow Powder Duo",cat:"brows",finish:"natural",color:"#7A5838",shade:"Medium Brown — taupe based",size_ml:0,isNew:false},
+  {id:16,brand:"Morphe",name:"Continuous Setting Mist",cat:"setting",finish:"natural",color:"#D8EAF5",shade:"",size_ml:100,isNew:true},
+  {id:17,brand:"Benefit",name:"Benetint",cat:"lip",finish:"stain",color:"#D06070",shade:"rose tint",size_ml:2,isNew:true},
+  {id:18,brand:"Carolina Herrera",name:"Fabulous Kiss Satin Lipstick",cat:"lip",finish:"satin",color:"#C83040",shade:"310 Carolina Red",size_ml:1,isNew:true},
+  {id:19,brand:"Clarins",name:"Lip Perfector",cat:"lip",finish:"shimmer",color:"#E8A0A8",shade:"Rose Shimmer",size_ml:4,isNew:true},
+  {id:20,brand:"Clinique",name:"Almost Lipstick",cat:"lip",finish:"sheer",color:"#8B5060",shade:"Black Honey",size_ml:1,isNew:true},
+  {id:21,brand:"Giorgio Armani",name:"Lip Power Matte Lipstick",cat:"lip",finish:"matte",color:"#E8A0A8",shade:"111 Nude Pink",size_ml:1,isNew:true},
+  {id:22,brand:"Kaja",name:"Juicy Glass Lip Oil",cat:"lip",finish:"glossy",color:"#C87858",shade:"Fig Smoothie",size_ml:4,isNew:true},
+  {id:23,brand:"Kylie Cosmetics",name:"Matte Liquid Lipstick",cat:"lip",finish:"matte",color:"#C06858",shade:"808 Kylie",size_ml:1,isNew:true},
+  {id:24,brand:"Lancôme",name:"Lip Idôle Butterglow Lip Balm",cat:"lip",finish:"balm",color:"#F0C0A8",shade:"10 Keep It Glowy",size_ml:1,isNew:true},
+  {id:25,brand:"Make Up For Ever",name:"Artist Color Pencil Lip Liner",cat:"lip",finish:"matte",color:"#8B6858",shade:"606 Wherever Walnut",size_ml:1,isNew:true},
+  {id:26,brand:"RMS Beauty",name:"Legendary Lip Oil",cat:"lip",finish:"glossy",color:"#E8A898",shade:"Lucia",size_ml:2,isNew:true},
+  {id:27,brand:"Tarte",name:"Maracuja Juicy Lip Plump",cat:"lip",finish:"glossy",color:"#E89090",shade:"Mixed Berries",size_ml:3,isNew:true},
+  {id:28,brand:"Too Faced",name:"Lip Injection Extreme",cat:"lip",finish:"glossy",color:"#F0C8C0",shade:"clear plump",size_ml:2,isNew:true},
+  {id:29,brand:"The Ordinary",name:"Glycolic Acid 7% Exfoliating Toner",cat:"skincare",finish:"treatment",color:"#F0F8E8",shade:"",size_ml:240,isNew:false},
+  {id:30,brand:"The Ordinary",name:"Niacinamide 10% + Zinc 1% Serum",cat:"skincare",finish:"treatment",color:"#F5F0E8",shade:"",size_ml:30,isNew:false},
+  {id:31,brand:"Caudalie",name:"Resveratrol Lift Retinol Alternative Serum",cat:"skincare",finish:"treatment",color:"#F0E8F5",shade:"",size_ml:30,isNew:false},
+];
+
+const TIPS={
+  primer:["Caliray (water-based) under Fenty Skin Tint, Tatcha (silicone) under Dior Matte — never mix","Let primer set 60 seconds before foundation for best adhesion"],
+  foundation:["Fenty Skin Tint for a natural everyday finish; Dior Matte for events and longevity","Warm product between fingers before applying for a skin-like result"],
+  concealer:["Natasha Denona (dewy) under eyes; MUFE (matte) for blemishes and coverage days","Pat with ring finger — least pressure for the most delicate area"],
+  powder:["Bake under eyes for 5 minutes then dust away for all-day crease-free coverage","Light pressing motion — finely milled, a little goes a long way"],
+  blush:["Patrick Ta: cream first then powder on top for dimension and staying power","Benefit Pompom: build on the apples and blend upward for a fresh flush","Benefit Shellie Gleam: dust over blush for a lit-from-within shimmer"],
+  bronzer:["Hoola: apply in a 3-shape — forehead, cheekbones, jawline — for a sun-kissed look","Warm undertones like yours pick up bronze beautifully — start light"],
+  highlighter:["Cookie: press with fingertip onto cheekbones, brow bone, and cupid's bow","Layer over bronzer for a golden hour glow"],
+  eyeshadow:["003 Warm Essentials: champagne all over lid, rust in crease, deep brown to define","Damp brush on shimmer shades for an intensified evening look"],
+  eyeliner:["Let Stila dry 10 seconds before opening eyes — waterproof means no second chances","Extend slightly past the outer corner to elongate the eye"],
+  brows:["Lighter shade to fill sparsely, darker to define the tail and arch","Short upward strokes mimic real hair — finish with clear brow gel"],
+  lip:["Benetint: tap onto lips and blend for a bitten-lip stain","Carolina Herrera Red: line with MUFE Walnut liner first to prevent bleeding","Black Honey: the ultimate your-lips-but-better — wear alone or over liner","Kaja Fig Oil: gorgeous over Patrick Ta blush for a warm monochromatic moment","Tarte Mixed Berries: adds a plumping tingle — apply over balm if sensitive","RMS Lucia: soft peachy gloss that pairs perfectly with the Dior Warm eye","Too Faced Lip Injection: wear alone or under any colour for extra fullness","Giorgio Armani Nude Pink: most versatile matte — pairs with every look on your shelf"],
+  setting:["Hold Morphe spray 8–10 inches from face — two light passes beat one heavy coat","Spritz in an X then T motion to cover evenly"],
+};
+
+const LOOK_DATA={
+  everyday:{titles:["Warm everyday glow","Effortless skin tint day","Peachy fresh morning"],notes:["Your Fenty Skin Tint and Benefit palette were made for each other — warm, glowy, done in minutes.","Hoola adds warmth without making it feel like a full face. Your fastest beautiful routine.","Peachy blush, a touch of Cookie highlight, and your favourite gloss. Warm and radiant."],priority:["primer","foundation","concealer","blush","bronzer","highlighter","brows","lip","setting"],limit:6,lipPool:[22,26,27,28,24]},
+  work:{titles:["Polished warm professional","Dior matte boardroom","Sculpted and confident"],notes:["Dior Matte + MUFE concealer + Mario powder — the most long-wearing combination on your shelf.","Structured, warm-toned, camera-ready. The Dior eye and Hoola bronzer elevate without being loud.","Defined liner, groomed brows, a neutral lip. Every product earning its place."],priority:["primer","foundation","concealer","powder","bronzer","blush","eyeshadow","eyeliner","brows","lip","setting"],limit:7,lipPool:[21,25,20,17]},
+  evening:{titles:["Golden hour warm eye","Dior Backstage evening","Sultry warm shimmer"],notes:["The Warm Essentials palette, Shellie Gleam shimmer blush, Cookie highlight — your shelf's best evening story.","Bronzed, warm, glowing. Stila liner drawn out, a bold or glossy lip to finish.","Your warm undertones are made for candlelight and low lighting."],priority:["primer","foundation","concealer","powder","bronzer","blush","highlighter","eyeshadow","eyeliner","brows","lip","setting"],limit:8,lipPool:[18,19,22,23,26]},
+  glam:{titles:["Full warm glam maximalist","All of Sephora, intentionally","Red carpet warm"],notes:["Every product earning its place — bronzed, highlighted, smoked, and finished with a bold lip.","The most complete look your shelf can produce. Nothing left out, nothing overdone.","Warm, intentional, unforgettable. This is what a fully stocked shelf looks like."],priority:["primer","foundation","concealer","powder","bronzer","blush","highlighter","eyeshadow","eyeliner","brows","lip","setting"],limit:10,lipPool:[18,21,23,25]},
+};
+
+const LIP_FILTER_MAP={any:null,gloss:[19,22,24,26,27,28],matte:[21,23,25],bold:[18,20],nude:[17,19,21,24,26]};
+
+const CONFLICTS=[
+  {severity:"moderate",label:"Primer + foundation mismatch",products:["Tatcha Liquid Silk Canvas","Fenty Eaze Drop Skin Tint"],reason:"Tatcha is silicone-based; Fenty Skin Tint is water-based. Layering these causes pilling and patchy application.",fix:"Use Caliray under Fenty Skin Tint. Use Tatcha under Dior Matte — both are silicone-compatible."},
+  {severity:"moderate",label:"Niacinamide stacking",products:["The Ordinary Niacinamide Serum","Fenty Skin Tint","Natasha Denona Concealer","MUFE Concealer"],reason:"Your serum is 10% niacinamide. Three of your makeup products also contain it — you're layering multiple high doses.",fix:"Skip The Ordinary Niacinamide serum on full-makeup days. Use it at night when it can work without competition."},
+  {severity:"low",label:"AHA + retinol conflict",products:["The Ordinary Glycolic Acid Toner","Caudalie Retinol Alternative Serum"],reason:"Using both in the same PM routine can over-exfoliate and compromise your skin barrier.",fix:"Alternate nights: Glycolic Acid Mon/Wed/Fri, Caudalie Retinol Tue/Thu. Never both on the same night."},
+  {severity:"low",label:"Setting spray + dewy base",products:["Morphe Continuous Setting Mist","Caliray Primer + Fenty Skin Tint"],reason:"Morphe contains alcohol which can counteract the dewy finish of your Caliray + Fenty combo.",fix:"Spritz from further away (12 inches) and use just one light coat — or skip it, your Fenty holds well on its own."},
+];
+
+const DISCOVER={
+  gap:[
+    {brand:"Supergoop!",name:"Unseen Sunscreen SPF 40",cat:"primer",color:"#F0E8D0",price:"$38",why:"Still your one missing essential — no SPF on your shelf. Doubles as a primer and invisible on warm undertones."},
+    {brand:"Charlotte Tilbury",name:"Pillow Talk Instant Eye Palette",cat:"eyeshadow",color:"#C8A090",price:"$75",why:"A soft pink-neutral complement to your Dior Warm palette — gives you a cooler-toned eye option."},
+    {brand:"Rhode",name:"Peptide Lip Tint",cat:"lip",color:"#E09888",price:"$24",why:"A warm peachy tint that would complement your Patrick Ta blush beautifully for everyday wear."},
+  ],
+  upgrade:[
+    {brand:"Armani Beauty",name:"Luminous Silk Foundation",cat:"foundation",color:"#D4A878",price:"$72",why:"The gold standard skin-finish foundation — same warmth as Fenty Skin Tint with more buildable coverage."},
+    {brand:"Charlotte Tilbury",name:"Airbrush Flawless Setting Spray",cat:"setting",color:"#D8EAF5",price:"$39",why:"Alcohol-free upgrade over Morphe — locks in dewy finishes without drying them out."},
+    {brand:"NARS",name:"Light Reflecting Highlighter",cat:"highlighter",color:"#F8E8C0",price:"$38",why:"A step up from Cookie — finer milled, more blendable, same champagne gold payoff."},
+  ],
+  dupe:[
+    {brand:"e.l.f.",name:"Halo Glow Liquid Filter",cat:"primer",color:"#F2D8C0",price:"$14",why:"Dupe for Tatcha Liquid Silk Canvas — same blurring glow effect at a fraction of the price."},
+    {brand:"Milani",name:"Baked Blush in Luminoso",cat:"blush",color:"#E8907A",price:"$12",why:"Dupe for Patrick Ta blush — peachy coral shimmer at drugstore price."},
+    {brand:"NYX",name:"Shine Loud Lip Color",cat:"lip",color:"#E08870",price:"$11",why:"Dupe for Giorgio Armani Lip Power Matte — same smooth application, similar nude-pink range."},
+  ],
+};
+
+const SKIP_RULES={tropical:["powder","bronzer"],dry:[],temperate:[],cold:[],humid:["powder"],beach:["powder","eyeshadow","bronzer"],business:[],adventure:["eyeshadow","highlighter"],wedding:[],city:[]};
+const CLIMATE_NOTES={tropical:"Skip powder and heavy bronzer in heat — they'll cake. Fenty Skin Tint + Caliray primer is your perfect tropical base.",dry:"Your Caudalie serum + Caliray primer is ideal prep. Lip balm and lip oil are essentials.",temperate:"Full flexibility. Your whole shelf works perfectly here.",cold:"Dior Matte holds up best in cold. Rich skincare prep before foundation.",humid:"Minimal base — skip powder entirely. Morphe setting spray helps lock things in."};
+const VIBE_NOTES={beach:"Fenty Skin Tint, Stila waterproof liner, Kaja Fig Lip Oil, no powder. Effortless and waterproof.",city:"Full look flexibility. Pack your Dior palette and one bold lip for evenings.",business:"Dior Matte + MUFE concealer + Mario powder + Giorgio Armani nude lip. Polished and boardroom-ready.",adventure:"Fenty Skin Tint, Stila liner, ABH brows, Lancôme balm. Four products, no fuss.",wedding:"Your full shelf comes. Pack a touch-up bag: Benefit blush, Cookie highlight, and one lip."};
+
+let climate="tropical",vibe="beach",lookVariant=0,discoverFilter="gap",occasionLook="everyday",lipFilter="any";
+
+document.querySelectorAll("#mainNav .nav-tab").forEach(t=>t.addEventListener("click",()=>{
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll("#mainNav .nav-tab").forEach(x=>x.classList.remove("active"));
+  document.getElementById("screen-"+t.dataset.screen).classList.add("active");
+  t.classList.add("active");
+}));
+
+function renderShelf(){
+  const cats=["primer","foundation","concealer","powder","bronzer","blush","highlighter","eyeshadow","eyeliner","brows","lip","setting","skincare"];
+  let html="";
+  cats.forEach(cat=>{
+    const items=SHELF.filter(p=>p.cat===cat);
+    if(!items.length)return;
+    html+=`<div class="cat-group"><div class="cat-label">${cat} (${items.length})</div><div class="shelf-grid">`;
+    items.forEach(p=>{
+      html+=`<div class="shelf-card"><div class="shelf-top"><div class="swatch" style="background:${p.color}"></div><div><div class="shelf-name">${p.name}${p.isNew?'<span class="new-badge">new</span>':''}</div><div class="shelf-brand">${p.brand}</div></div></div>${p.shade?`<div class="shade-pill">${p.shade}</div>`:''}</div>`;
+    });
+    html+=`</div></div>`;
+  });
+  document.getElementById("shelf-grid").innerHTML=html;
+}
+
+document.querySelectorAll("#look-occasions .pill").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#look-occasions .pill").forEach(x=>x.classList.remove("active"));b.classList.add("active");occasionLook=b.dataset.occ;}));
+document.querySelectorAll("#lip-filters .pill").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#lip-filters .pill").forEach(x=>x.classList.remove("active"));b.classList.add("active");lipFilter=b.dataset.lip;}));
+
+function pickLip(cfg){
+  const filterIds=LIP_FILTER_MAP[lipFilter];
+  const pool=filterIds?SHELF.filter(p=>p.cat==="lip"&&filterIds.includes(p.id)):SHELF.filter(p=>p.cat==="lip"&&cfg.lipPool.includes(p.id));
+  return pool.length?pool[lookVariant%pool.length]:SHELF.filter(p=>p.cat==="lip")[lookVariant%12];
+}
+
+function buildLook(){
+  const cfg=LOOK_DATA[occasionLook];
+  const vi=lookVariant%cfg.titles.length;
+  const used=new Set();
+  const picks=[];
+  cfg.priority.forEach(cat=>{
+    if(picks.length>=cfg.limit)return;
+    if(cat==="lip"){const lp=pickLip(cfg);if(lp&&!used.has(lp.id)){picks.push(lp);used.add(lp.id);}return;}
+    if(cat==="skincare")return;
+    const cands=SHELF.filter(p=>p.cat===cat&&!used.has(p.id));
+    if(!cands.length)return;
+    picks.push(cands[lookVariant%cands.length]);
+    used.add(picks[picks.length-1].id);
+  });
+  const steps=picks.map(p=>{
+    const arr=TIPS[p.cat]||["Apply and blend well."];
+    const tip=arr[lookVariant%arr.length];
+    return `<div class="result-step"><div class="step-dot" style="background:${p.color}"></div><div class="step-body"><div class="step-cat">${p.cat}</div><div class="step-name">${p.brand} — ${p.name}</div>${p.shade?`<div class="step-shade">${p.shade}</div>`:""}<div class="step-tip">${tip}</div></div></div>`;
+  }).join("");
+  document.getElementById("look-result").innerHTML=`<div class="result-box"><div class="result-title"><em>${cfg.titles[vi]}</em></div><div class="result-sub">${occasionLook.charAt(0).toUpperCase()+occasionLook.slice(1)} look · ${picks.length} products from your shelf</div>${steps}<div class="result-note">${cfg.notes[vi]}</div><div class="result-footer"><button onclick="lookVariant++;buildLook()"><i class="ti ti-refresh"></i> Different look</button><button onclick="window.open('https://sephora.com','_blank')"><i class="ti ti-heart"></i> Shop on Sephora ↗</button></div></div>`;
+}
+
+document.querySelectorAll("#climate-btns .climate-btn").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#climate-btns .climate-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active");climate=b.dataset.c;}));
+document.querySelectorAll("#vibe-btns .pill").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#vibe-btns .pill").forEach(x=>x.classList.remove("active"));b.classList.add("active");vibe=b.dataset.v;}));
+
+function packBag(){
+  const dest=document.getElementById("t-dest").value.trim()||"your destination";
+  const days=parseInt(document.getElementById("t-days").value);
+  const skipCats=new Set([...(SKIP_RULES[climate]||[]),...(SKIP_RULES[vibe]||[])]);
+  const makeupShelf=SHELF.filter(p=>p.cat!=="skincare");
+  const bring=makeupShelf.filter(p=>!skipCats.has(p.cat));
+  const skip=makeupShelf.filter(p=>skipCats.has(p.cat));
+  const tsa=bring.filter(p=>p.size_ml>100);
+  const bringNoLip=bring.filter(p=>p.cat!=="lip");
+  const travelLips=bring.filter(p=>p.cat==="lip").slice(0,3);
+  const finalBring=[...bringNoLip,...travelLips];
+  document.getElementById("travel-result").innerHTML=`
+    <div class="summary-row"><div class="summary-card"><div class="summary-num">${finalBring.length}</div><div class="summary-label">From your shelf</div></div><div class="summary-card"><div class="summary-num">1</div><div class="summary-label">Suggestion</div></div><div class="summary-card"><div class="summary-num">${days}</div><div class="summary-label">Days covered</div></div></div>
+    ${tsa.length?`<div style="background:#FDF0F0;border-radius:var(--radius-sm);padding:10px 12px;font-size:12px;color:#C07080;margin-bottom:1rem;display:flex;gap:8px;line-height:1.5"><i class="ti ti-alert-circle" style="font-size:15px;flex-shrink:0"></i><span>TSA: ${tsa.map(p=>p.brand+" "+p.name.split(" ").slice(0,2).join(" ")).join(", ")} exceed 100ml — decant or check bag.</span></div>`:""}
+    <div class="card" style="margin-bottom:0">
+      <p style="font-size:13px;color:var(--ink-light);line-height:1.6;margin-bottom:6px"><strong style="color:var(--ink)">${dest}</strong> — ${CLIMATE_NOTES[climate]}</p>
+      <p style="font-size:13px;color:var(--ink-light);line-height:1.6;margin-bottom:1rem;font-style:italic">${VIBE_NOTES[vibe]}</p>
+      <div class="divider"></div>
+      <p class="sec-label" style="margin-top:0">Bring (${finalBring.length} items)</p>
+      ${finalBring.map(p=>`<div class="bag-item"><div class="swatch" style="background:${p.color};flex-shrink:0;width:26px;height:26px;border-radius:50%;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.1)"></div><div class="bag-body"><div class="bag-name">${p.name}</div><div class="bag-brand">${p.brand}${p.shade?" · "+p.shade.split("—")[0].trim():""}</div></div></div>`).join("")}
+      <div class="divider"></div>
+      <p class="sec-label" style="margin-top:0">Worth picking up</p>
+      <div class="bag-item"><div class="swatch" style="background:#F0E8D0;flex-shrink:0;width:26px;height:26px;border-radius:50%;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.1)"></div><div class="bag-body"><div class="bag-name">Supergoop! Unseen Sunscreen SPF 40<span class="tag tag-suggest">new</span></div><div class="bag-brand">Supergoop!</div><div class="bag-note">Still your one missing essential — especially for ${climate} climates</div></div></div>
+      ${skip.length?`<div class="divider"></div><p class="sec-label" style="margin-top:0">Leave at home</p>${skip.map(p=>`<div class="bag-item"><div class="swatch" style="background:${p.color};flex-shrink:0;width:26px;height:26px;border-radius:50%;border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.1)"></div><div class="bag-body"><div class="bag-name">${p.name}<span class="tag tag-skip">skip</span></div><div class="bag-brand">${p.brand} — won't perform in this climate</div></div></div>`).join("")}`:""}
+      <p style="font-size:11px;color:var(--ink-light);margin-top:0.75rem;font-style:italic">You have 12 lip products — only 3 are packed above. Choose your travel trio wisely.</p>
+    </div>`;
+}
+
+function checkIngredients(){
+  document.getElementById("check-result").innerHTML=`<div class="result-box">
+    <div class="result-title" style="font-size:20px;margin-bottom:4px">${CONFLICTS.length} things to know</div>
+    <div class="result-sub">Based on your real products and skincare purchases</div>
+    ${CONFLICTS.map(c=>`<div class="conflict-item">
+      <span class="conflict-label ${c.severity==="moderate"?"tag-warn":"tag-skip"}">${c.label}</span>
+      <div class="conflict-products">${c.products.join(" + ")}</div>
+      <div class="conflict-reason">${c.reason}</div>
+      <div class="conflict-fix"><i class="ti ti-bulb" style="font-size:13px;flex-shrink:0;margin-top:1px"></i><span>${c.fix}</span></div>
+    </div>`).join("")}
+  </div>`;
+}
+
+document.querySelectorAll("#discover-filters .pill").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#discover-filters .pill").forEach(x=>x.classList.remove("active"));b.classList.add("active");discoverFilter=b.dataset.df;}));
+
+function discoverProducts(){
+  const prods=DISCOVER[discoverFilter];
+  document.getElementById("discover-result").innerHTML=`<div>${prods.map(p=>`<div class="discover-card"><div class="discover-swatch" style="background:${p.color}"></div><div class="discover-body"><div class="discover-name">${p.name}</div><div class="discover-brand">${p.brand} · ${p.cat}</div><div class="discover-why">${p.why}</div><div class="discover-price">${p.price} — view on Sephora ↗</div></div></div>`).join("")}</div>`;
+}
+
+renderShelf();
+</script>
+</body>
+</html>
